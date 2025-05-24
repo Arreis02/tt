@@ -1,12 +1,5 @@
-// Audio import moved for sandbox safety
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-
-// Temporarily disable audio for sandbox compatibility
-let spinSound = null;
-let revealSound = null;
 
 const promptData = [
   {
@@ -18,8 +11,7 @@ const promptData = [
     topic: "My first passionate kiss was…",
     prompts: ["Awkward", "Tonsil hockey", "Steamy", "Place"],
     mode: "playful"
-  },
-  // [...additional prompt objects...]
+  }
 ];
 
 function Timer({ resetTrigger }) {
@@ -51,7 +43,7 @@ function Timer({ resetTrigger }) {
   const seconds = secondsLeft % 60;
 
   return (
-    <span className={\`transition-all duration-300 \${flash ? 'bg-white text-black rounded-full px-2' : ''}\`}>
+    <span className={`transition-all duration-300 ${flash ? 'bg-white text-black rounded-full px-2' : ''}`}>
       {minutes}:{seconds.toString().padStart(2, '0')}
     </span>
   );
@@ -65,18 +57,14 @@ export default function SexPromptGame() {
 
   return (
     screen === "menu" ? (
-      <div
-        className="relative flex flex-col items-center justify-center min-h-screen text-white"
-        style={{ backgroundImage: 'url("/bgcover.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-20 z-0" />
+      <div className="relative flex flex-col items-center justify-center min-h-screen text-white bg-black">
         <div className="z-10 flex flex-col items-center">
           <h1 className="text-4xl font-bold text-pink-500 drop-shadow-md mb-2">Truth or Tease</h1>
           <p className="italic text-white text-lg mb-4">A Game of Seduction, Subversion, and Secrets</p>
           <div className="space-y-3">
-            <Button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md hover:shadow-pink-500/50" onClick={() => setScreen('game')}>Playful</Button>
-            <Button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md hover:shadow-pink-500/50" onClick={() => setScreen('game')}>Wild</Button>
-            <Button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md hover:shadow-pink-500/50" onClick={() => setScreen('game')}>Mixed</Button>
+            <button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md" onClick={() => setScreen('game')}>Playful</button>
+            <button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md" onClick={() => setScreen('game')}>Wild</button>
+            <button className="w-48 bg-black text-pink-500 font-bold border border-pink-500 shadow-md" onClick={() => setScreen('game')}>Mixed</button>
           </div>
         </div>
       </div>
@@ -84,24 +72,23 @@ export default function SexPromptGame() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4 text-center relative">
         <h2 className="text-3xl font-bold text-pink-400 mb-4 animate-pulse">{currentPrompt.topic}</h2>
         <motion.div className="space-y-2 mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-          <div className="text-lg font-semibold">{currentPrompt.prompts[0]}</div>
-          <div className="text-lg font-semibold">{currentPrompt.prompts[1]}</div>
-          <div className="text-lg font-semibold">{currentPrompt.prompts[2]}</div>
-          <div className="text-lg font-semibold">{currentPrompt.prompts[3]}</div>
+          {currentPrompt.prompts.map((p, i) => (
+            <div key={i} className="text-lg font-semibold">{p}</div>
+          ))}
         </motion.div>
         <div className="flex space-x-6 mb-6">
-          <Button className="text-lg font-bold px-6 py-3 bg-black text-white border-white border hover:bg-white hover:text-black rounded-full">Truth</Button>
-          <Button className="text-lg font-bold px-6 py-3 bg-black text-white border-white border hover:bg-white hover:text-black rounded-full">Lie</Button>
+          <button className="text-lg font-bold px-6 py-3 bg-black text-white border-white border">Truth</button>
+          <button className="text-lg font-bold px-6 py-3 bg-black text-white border-white border">Lie</button>
         </div>
         <div className="flex space-x-4 mb-8">
-          <Button onClick={() => {
+          <button onClick={() => {
             setCurrentIndex((currentIndex - 1 + promptData.length) % promptData.length);
             setResetKey(prev => prev + 1);
-          }} className="px-4 py-2 text-white border border-white rounded-full">Back</Button>
-          <Button onClick={() => {
+          }} className="px-4 py-2 text-white border border-white rounded-full">Back</button>
+          <button onClick={() => {
             setCurrentIndex((currentIndex + 1) % promptData.length);
             setResetKey(prev => prev + 1);
-          }} className="px-4 py-2 text-white border border-white rounded-full">Next</Button>
+          }} className="px-4 py-2 text-white border border-white rounded-full">Next</button>
         </div>
         <div className="absolute top-6 right-6 w-16 h-16 rounded-full border-4 border-white flex items-center justify-center text-lg font-bold">
           <Timer resetTrigger={resetKey} />
