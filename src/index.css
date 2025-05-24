@@ -1,0 +1,11 @@
+.flash-screen {
+  animation: flash-bg 0.5s ease-in-out;
+}
+@keyframes flash-bg {
+  0% { background-color: white; }
+  100% { background-color: black; }
+}
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
